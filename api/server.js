@@ -2,23 +2,23 @@ const express = require('express');
 const cors = require('cors');
 const nodemailer = require('nodemailer');
 const path = require('path');
-require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
+
+// Serve static files from public directory
+app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // Simple rate limiting
 const requestCounts = new Map();
-const RATE_LIMIT = 5; // Max requests
-const RATE_WINDOW = 60 * 1000; // 1 minute
+const RATE_LIMIT = 5;
+const RATE_WINDOW = 60 * 1000;
 
 function rateLimiter(req, res, next) {
-    const ip = req.ip;
+    const ip = req.ip || req.headers['x-forwarded-for'] || 'unknown';
     const now = Date.now();
     
     if (!requestCounts.has(ip)) {
@@ -141,14 +141,11 @@ const stats = {
     maintained: '6+'
 };
 
-// ==================== ROUTES ====================
+// Counter for visitors (resets on server restart - for production, use a database)
+let visitorCount = 0;
 
-// Home route - serve portfolio
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
+// ==================== API ROUTES ====================
 
-// API Routes
 // Get all projects
 app.get('/api/projects', (req, res) => {
     res.json({
@@ -212,6 +209,15 @@ app.post('/api/contact', rateLimiter, async (req, res) => {
             });
         }
 
+        // Check if email credentials are configured
+        if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+            console.log('Email not configured. Contact form submission:', { name, email, subject, message });
+            return res.json({
+                success: true,
+                message: 'Message received! (Email notifications not configured)'
+            });
+        }
+
         // Send email notification
         const mailOptions = {
             from: process.env.EMAIL_USER,
@@ -228,7 +234,7 @@ app.post('/api/contact', rateLimiter, async (req, res) => {
                         <p style="background: white; padding: 15px; border-radius: 4px;">${message}</p>
                     </div>
                     <p style="color: #666; font-size: 12px; margin-top: 20px;">
-                        Sent from your portfolio website contact form
+                        Sent from your portfolio website
                     </p>
                 </div>
             `
@@ -273,17 +279,17 @@ app.post('/api/contact', rateLimiter, async (req, res) => {
     }
 });
 
-// Health check endpoint
+// Health check
 app.get('/api/health', (req, res) => {
     res.json({
         success: true,
         message: 'Server is running',
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
+        environment: process.env.VERCEL ? 'Vercel' : 'Local'
     });
 });
 
 // Visitor tracking
-let visitorCount = 0;
 app.post('/api/visitor', (req, res) => {
     visitorCount++;
     res.json({
@@ -299,12 +305,9 @@ app.get('/api/visitors', (req, res) => {
     });
 });
 
-// 404 handler
-app.use((req, res) => {
-    res.status(404).json({
-        success: false,
-        message: 'Route not found'
-    });
+// Serve portfolio HTML for all other routes
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
 });
 
 // Error handler
@@ -316,8 +319,5 @@ app.use((err, req, res, next) => {
     });
 });
 
-// Start server
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-    console.log(`Visit: http://localhost:${PORT}`);
-});
+// Export for Vercel serverless
+module.exports = app;
