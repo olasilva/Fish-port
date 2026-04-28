@@ -39,7 +39,7 @@
             height: 100%;
             z-index: 0;
             pointer-events: none;
-            opacity: 1;
+            opacity: 0.4;
         }
 
         .content {
@@ -54,7 +54,7 @@
             left: 0;
             width: 100%;
             height: 2px;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.03);
             z-index: 1000;
             backdrop-filter: blur(10px);
         }
@@ -62,7 +62,7 @@
         .scroll-progress-bar {
             height: 100%;
             background: linear-gradient(90deg, transparent, #00ff88, #00ff88, transparent);
-            box-shadow: 0 0 15px rgba(0, 255, 136, 0.6), 0 0 30px rgba(0, 255, 136, 0.3);
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
             width: 0%;
             transition: width 0.1s linear;
         }
@@ -76,9 +76,9 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            background: rgba(10, 10, 15, 0.85);
+            background: rgba(10, 10, 15, 0.75);
             backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(0, 255, 136, 0.1);
+            border-bottom: 1px solid rgba(0, 255, 136, 0.08);
             width: 100%;
         }
 
@@ -116,7 +116,7 @@
         .nav-links a:hover, .nav-links a:focus {
             color: #00ff88;
             outline: none;
-            text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.2);
         }
 
         .nav-links a::after {
@@ -127,7 +127,7 @@
             width: 0;
             height: 2px;
             background: #00ff88;
-            box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
             transition: width 0.3s ease;
         }
 
@@ -700,62 +700,6 @@
             gap: 0.75rem;
         }
 
-        /* Testimonial */
-        .testimonial-card {
-            background: rgba(15, 15, 22, 0.8);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(0, 255, 136, 0.1);
-            border-radius: 12px;
-            padding: 2rem;
-            margin-top: 2rem;
-            transition: all 0.3s ease;
-        }
-
-        .testimonial-card:hover {
-            border-color: rgba(0, 255, 136, 0.2);
-        }
-
-        .testimonial-text {
-            font-size: 1.1rem;
-            line-height: 1.7;
-            color: #e4e6ef;
-            margin-bottom: 1.5rem;
-            font-style: italic;
-            position: relative;
-            padding-left: 1.5rem;
-            border-left: 2px solid #00ff88;
-        }
-
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .author-avatar {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, #00ff88, #00cc6a);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #0a0a0f;
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
-
-        .author-info h4 {
-            color: #ffffff;
-            font-weight: 600;
-            margin-bottom: 0.25rem;
-        }
-
-        .author-info p {
-            color: #71717a;
-            font-size: 0.85rem;
-        }
-
         /* Footer */
         footer {
             padding: 2rem 6%;
@@ -1121,12 +1065,12 @@
                     <span class="contact-action">View code <i class="fas fa-arrow-right" aria-hidden="true"></i></span>
                 </a>
 
-             <a href="https://docs.google.com/document/d/10kB5TLs7OrC_dNlCcj5HpCPr8rn1d1Zw/edit?usp=drive_link&ouid=100872723651019877793&rtpof=true&sd=true" class="contact-card fade-up delay-500" target="_blank" rel="noopener noreferrer">
-                <div class="contact-icon"><i class="fas fa-user-tie" aria-hidden="true"></i></div>
-                <h3>My CV</h3>
-                <div class="contact-value">Professional experience</div>
-                <span class="contact-action">View CV <i class="fas fa-arrow-right" aria-hidden="true"></i></span>
-            </a>
+                <a href="https://docs.google.com/document/d/10kB5TLs7OrC_dNlCcj5HpCPr8rn1d1Zw/edit?usp=drive_link&ouid=100872723651019877793&rtpof=true&sd=true" class="contact-card fade-up delay-600" target="_blank" rel="noopener noreferrer">
+                    <div class="contact-icon"><i class="fas fa-user-tie" aria-hidden="true"></i></div>
+                    <h3>My CV</h3>
+                    <div class="contact-value">Professional experience</div>
+                    <span class="contact-action">View CV <i class="fas fa-arrow-right" aria-hidden="true"></i></span>
+                </a>
             </div>
         </section>
     </main>
@@ -1142,7 +1086,7 @@
     </footer>
 </div>
 
-<!-- ============ TECH BACKGROUND WITH SILVA GLOW ============ -->
+<!-- ============ MINIMALIST BACKGROUND ============ -->
 <script>
     const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
@@ -1155,11 +1099,10 @@
     resize();
     window.addEventListener('resize', resize);
 
-    const gridSpacing = 50;
-    let cols = Math.ceil(canvas.width / gridSpacing) + 1;
-    let rows = Math.ceil(canvas.height / gridSpacing) + 1;
-    const particles = [];
-    const mouseInfluence = 150;
+    // Very subtle dot grid
+    const gridSpacing = 80;
+    let cols, rows;
+    const dots = [];
     let mouseX = canvas.width / 2;
     let mouseY = canvas.height / 2;
     let targetMouseX = canvas.width / 2;
@@ -1170,54 +1113,44 @@
         targetMouseY = e.clientY;
     });
 
-    function createParticles() {
-        particles.length = 0;
+    function createDots() {
+        dots.length = 0;
         cols = Math.ceil(canvas.width / gridSpacing) + 1;
         rows = Math.ceil(canvas.height / gridSpacing) + 1;
         for (let i = 0; i < cols; i++) {
             for (let j = 0; j < rows; j++) {
-                particles.push({
+                dots.push({
                     x: i * gridSpacing,
                     y: j * gridSpacing,
                     originX: i * gridSpacing,
                     originY: j * gridSpacing,
-                    vx: 0,
-                    vy: 0,
-                    size: Math.random() * 1.5 + 0.5,
-                    pulse: Math.random() * Math.PI * 2,
-                    pulseSpeed: 0.02 + Math.random() * 0.04
+                    size: 1,
+                    opacity: 0.15 + Math.random() * 0.1
                 });
             }
         }
     }
-    createParticles();
+    createDots();
 
-    const dataPackets = [];
-    const maxPackets = 15;
+    // Very few subtle floating particles
+    const particles = [];
+    const maxParticles = 8;
 
-    function createDataPacket() {
-        const edge = Math.floor(Math.random() * 4);
-        let x, y, dx, dy;
-        switch(edge) {
-            case 0: x = Math.random() * canvas.width; y = 0; dx = (Math.random() - 0.5) * 2; dy = 1; break;
-            case 1: x = canvas.width; y = Math.random() * canvas.height; dx = -1; dy = (Math.random() - 0.5) * 2; break;
-            case 2: x = Math.random() * canvas.width; y = canvas.height; dx = (Math.random() - 0.5) * 2; dy = -1; break;
-            case 3: x = 0; y = Math.random() * canvas.height; dx = 1; dy = (Math.random() - 0.5) * 2; break;
-        }
-        const len = Math.sqrt(dx * dx + dy * dy);
+    function createParticle() {
         return {
-            x, y,
-            dx: (dx / len) * (0.5 + Math.random() * 1.5),
-            dy: (dy / len) * (0.5 + Math.random() * 1.5),
-            trail: [],
-            maxTrail: 8 + Math.floor(Math.random() * 12),
-            life: 1,
-            color: Math.random() < 0.3 ? '#00ff88' : '#00cc6a'
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            size: Math.random() * 1.5 + 0.5,
+            speedX: (Math.random() - 0.5) * 0.2,
+            speedY: (Math.random() - 0.5) * 0.2,
+            opacity: Math.random() * 0.15,
+            life: 0,
+            maxLife: 300 + Math.random() * 400
         };
     }
 
-    for (let i = 0; i < maxPackets; i++) {
-        dataPackets.push(createDataPacket());
+    for (let i = 0; i < maxParticles; i++) {
+        particles.push(createParticle());
     }
 
     let time = 0;
@@ -1225,173 +1158,92 @@
     function animate() {
         animationId = requestAnimationFrame(animate);
         time++;
-        
+
         // Smooth mouse follow
-        mouseX += (targetMouseX - mouseX) * 0.05;
-        mouseY += (targetMouseY - mouseY) * 0.05;
-        
-        ctx.fillStyle = 'rgba(10, 10, 15, 0.12)';
+        mouseX += (targetMouseX - mouseX) * 0.03;
+        mouseY += (targetMouseY - mouseY) * 0.03;
+
+        // Very transparent clear for subtle trailing effect
+        ctx.fillStyle = 'rgba(10, 10, 15, 0.15)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         const isMobile = window.innerWidth <= 768;
+        const mouseInfluenceRadius = 120;
 
-        // ============ DRAW GLOWING SILVA TEXT ============
-        const fontSize = Math.min(canvas.width * 0.28, canvas.height * 0.35);
-        const textX = canvas.width / 2;
-        const textY = canvas.height / 2 - fontSize * 0.2;
-        
-        // Mouse parallax for text
-        const parallaxX = (mouseX - canvas.width / 2) * 0.02;
-        const parallaxY = (mouseY - canvas.height / 2) * 0.02;
-        
-        ctx.save();
-        
-        // Multiple layered glows
-        for (let i = 5; i >= 0; i--) {
-            const alpha = 0.03 - (i * 0.004);
-            const blur = 15 + i * 15;
-            const spread = 8 + i * 12;
-            
-            ctx.font = `800 ${fontSize}px "Manrope", sans-serif`;
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            
-            ctx.shadowColor = 'rgba(0, 255, 136, 0.8)';
-            ctx.shadowBlur = blur;
-            ctx.shadowOffsetX = parallaxX * (i + 1) * 0.5;
-            ctx.shadowOffsetY = parallaxY * (i + 1) * 0.5;
-            
-            ctx.fillStyle = `rgba(0, 255, 136, ${alpha})`;
-            ctx.fillText('dev Leke', textX + parallaxX * i * 0.3, textY + parallaxY * i * 0.3);
-        }
-        
-        // Inner glow
-        ctx.shadowColor = 'rgba(0, 255, 136, 0.4)';
-        ctx.shadowBlur = 8;
-        ctx.shadowOffsetX = 0;
-        ctx.shadowOffsetY = 0;
-        ctx.fillStyle = 'rgba(0, 255, 136, 0.06)';
-        ctx.fillText('dev Leke', textX, textY);
-        
-        // Core text - very subtle
-        ctx.shadowColor = 'rgba(255, 255, 255, 0.1)';
-        ctx.shadowBlur = 2;
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.02)';
-        ctx.fillText('dev Leke', textX, textY);
-        
-        ctx.shadowColor = 'transparent';
-        ctx.shadowBlur = 0;
-        ctx.restore();
-        
-        // Breathing pulse for the glow
-        const breathe = Math.sin(time * 0.02) * 0.3 + 0.7;
-
-        // ============ GRID PARTICLES ============
-        particles.forEach((p, i) => {
+        // Draw subtle dot grid
+        dots.forEach(dot => {
             if (!isMobile) {
-                const dx = mouseX - p.x;
-                const dy = mouseY - p.y;
+                const dx = mouseX - dot.x;
+                const dy = mouseY - dot.y;
                 const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < mouseInfluence) {
-                    const force = (mouseInfluence - dist) / mouseInfluence;
-                    const angle = Math.atan2(dy, dx);
-                    p.vx -= Math.cos(angle) * force * 0.5;
-                    p.vy -= Math.sin(angle) * force * 0.5;
+                
+                if (dist < mouseInfluenceRadius) {
+                    const force = (mouseInfluenceRadius - dist) / mouseInfluenceRadius;
+                    dot.x += (mouseX - dot.x) * force * 0.02;
+                    dot.y += (mouseY - dot.y) * force * 0.02;
                 }
             }
-            p.vx += (p.originX - p.x) * 0.05;
-            p.vy += (p.originY - p.y) * 0.05;
-            p.vx *= 0.9;
-            p.vy *= 0.9;
-            p.x += p.vx;
-            p.y += p.vy;
-            p.pulse += p.pulseSpeed;
-            const glowSize = p.size + Math.sin(p.pulse) * 1 * breathe;
-            
-            // Particle
+
+            // Gentle pull back to origin
+            dot.x += (dot.originX - dot.x) * 0.02;
+            dot.y += (dot.originY - dot.y) * 0.02;
+
+            // Draw dot
             ctx.beginPath();
-            ctx.arc(p.x, p.y, glowSize, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(0, 255, 136, ${0.6 * breathe})`;
+            ctx.arc(dot.x, dot.y, dot.size, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(0, 255, 136, ${dot.opacity})`;
             ctx.fill();
-            
-            // Glow
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, glowSize * 3, 0, Math.PI * 2);
-            const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, glowSize * 3);
-            gradient.addColorStop(0, `rgba(0, 255, 136, ${0.3 * breathe})`);
-            gradient.addColorStop(1, 'rgba(0, 255, 136, 0)');
-            ctx.fillStyle = gradient;
-            ctx.fill();
-            
-            // Grid lines
-            if (i % rows === 0 && p.x < canvas.width) {
-                const nextV = particles[i + 1];
-                if (nextV) {
-                    ctx.beginPath();
-                    ctx.moveTo(p.x, p.y);
-                    ctx.lineTo(nextV.x, nextV.y);
-                    ctx.strokeStyle = 'rgba(0, 255, 136, 0.04)';
-                    ctx.lineWidth = 0.5;
-                    ctx.stroke();
-                }
+        });
+
+        // Draw and update floating particles
+        particles.forEach(p => {
+            p.x += p.speedX;
+            p.y += p.speedY;
+            p.life++;
+
+            // Wrap around edges
+            if (p.x < -10) p.x = canvas.width + 10;
+            if (p.x > canvas.width + 10) p.x = -10;
+            if (p.y < -10) p.y = canvas.height + 10;
+            if (p.y > canvas.height + 10) p.y = -10;
+
+            // Reset particle after its life
+            if (p.life > p.maxLife) {
+                Object.assign(p, createParticle());
             }
-            if (i < rows) {
-                const nextH = particles[i + rows];
-                if (nextH) {
-                    ctx.beginPath();
-                    ctx.moveTo(p.x, p.y);
-                    ctx.lineTo(nextH.x, nextH.y);
-                    ctx.strokeStyle = 'rgba(0, 255, 136, 0.04)';
-                    ctx.lineWidth = 0.5;
-                    ctx.stroke();
-                }
+
+            // Fade in/out based on life
+            const lifeProgress = p.life / p.maxLife;
+            const fadeOpacity = lifeProgress < 0.1 ? lifeProgress * 10 : 
+                               lifeProgress > 0.9 ? (1 - lifeProgress) * 10 : 
+                               1;
+            const currentOpacity = p.opacity * fadeOpacity;
+
+            if (currentOpacity > 0.01) {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(0, 255, 136, ${currentOpacity})`;
+                ctx.fill();
+
+                // Tiny glow
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size * 2.5, 0, Math.PI * 2);
+                const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 2.5);
+                gradient.addColorStop(0, `rgba(0, 255, 136, ${currentOpacity * 0.5})`);
+                gradient.addColorStop(1, 'rgba(0, 255, 136, 0)');
+                ctx.fillStyle = gradient;
+                ctx.fill();
             }
         });
 
-        // ============ DATA PACKETS ============
-        for (let i = dataPackets.length - 1; i >= 0; i--) {
-            const packet = dataPackets[i];
-            packet.x += packet.dx;
-            packet.y += packet.dy;
-            packet.trail.push({ x: packet.x, y: packet.y });
-            if (packet.trail.length > packet.maxTrail) packet.trail.shift();
-            packet.life -= 0.0003;
-            
-            if (packet.x < -50 || packet.x > canvas.width + 50 || 
-                packet.y < -50 || packet.y > canvas.height + 50 || 
-                packet.life <= 0) {
-                dataPackets.splice(i, 1);
-                dataPackets.push(createDataPacket());
-                continue;
-            }
-            
-            if (packet.trail.length > 1) {
-                ctx.beginPath();
-                ctx.moveTo(packet.trail[0].x, packet.trail[0].y);
-                for (let j = 1; j < packet.trail.length; j++) {
-                    ctx.lineTo(packet.trail[j].x, packet.trail[j].y);
-                }
-                ctx.strokeStyle = packet.color;
-                ctx.lineWidth = 1;
-                ctx.globalAlpha = packet.life * 0.5;
-                ctx.stroke();
-                ctx.globalAlpha = 1;
-            }
-            
+        // Minimal grid lines - only horizontal, very faint
+        ctx.strokeStyle = 'rgba(0, 255, 136, 0.02)';
+        ctx.lineWidth = 0.5;
+        for (let y = gridSpacing; y < canvas.height; y += gridSpacing) {
             ctx.beginPath();
-            ctx.arc(packet.x, packet.y, 2.5, 0, Math.PI * 2);
-            ctx.fillStyle = packet.color;
-            ctx.globalAlpha = packet.life;
-            ctx.fill();
-            
-            ctx.beginPath();
-            ctx.arc(packet.x, packet.y, 8, 0, Math.PI * 2);
-            const headGlow = ctx.createRadialGradient(packet.x, packet.y, 0, packet.x, packet.y, 8);
-            headGlow.addColorStop(0, 'rgba(0, 255, 136, 0.6)');
-            headGlow.addColorStop(1, 'rgba(0, 255, 136, 0)');
-            ctx.fillStyle = headGlow;
-            ctx.fill();
-            ctx.globalAlpha = 1;
+            ctx.moveTo(0, y);
+            ctx.lineTo(canvas.width, y);
+            ctx.stroke();
         }
     }
 
@@ -1399,7 +1251,7 @@
 
     window.addEventListener('resize', () => {
         resize();
-        createParticles();
+        createDots();
     });
 
     window.addEventListener('beforeunload', () => {
@@ -1453,6 +1305,29 @@
     }
     window.addEventListener('scroll', updateScrollProgress, { passive: true });
 
+    // ============ ACTIVE NAV LINK HIGHLIGHT ============
+    const sections = document.querySelectorAll('section');
+    const navAnchors = document.querySelectorAll('.nav-links a');
+
+    window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop - 150;
+            if (scrollY >= sectionTop) {
+                current = section.getAttribute('id');
+            }
+        });
+        
+        navAnchors.forEach(link => {
+            link.style.color = '#a1a1aa';
+            link.style.textShadow = 'none';
+            if (link.getAttribute('href') === `#${current}`) {
+                link.style.color = '#00ff88';
+                link.style.textShadow = '0 0 10px rgba(0, 255, 136, 0.3)';
+            }
+        });
+    });
+
     // ============ SECTION HEADER POP-UPS ============
     const sectionTitles = document.querySelectorAll('.section-title[data-animate="pop-in"]');
     const headerObserver = new IntersectionObserver((entries) => {
@@ -1473,7 +1348,7 @@
         entries.forEach(entry => {
             if (entry.isIntersecting) entry.target.classList.add('appear');
         });
-    }, { threshold: 0.15, rootMargin: '0px 0px -30px 0px' });
+    }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
     
     animatedElements.forEach(el => fadeObserver.observe(el));
     
@@ -1506,21 +1381,29 @@
         }
     });
 
-    // ============ COUNTER ANIMATION ============
+    // ============ COUNTER ANIMATION WITH EASING ============
     function animateCounter(element, target, duration = 2000) {
-        const start = 0;
-        const increment = target / (duration / 16);
-        let current = start;
+        const start = performance.now();
         const suffix = element.dataset.suffix || '';
-        const timer = setInterval(() => {
-            current += increment;
-            if (current >= target) {
-                element.textContent = target + suffix;
-                clearInterval(timer);
-                return;
+        
+        function easeOutCubic(t) {
+            return 1 - Math.pow(1 - t, 3);
+        }
+        
+        function update(currentTime) {
+            const elapsed = currentTime - start;
+            const progress = Math.min(elapsed / duration, 1);
+            const easedProgress = easeOutCubic(progress);
+            const current = Math.floor(target * easedProgress);
+            
+            element.textContent = current + suffix;
+            
+            if (progress < 1) {
+                requestAnimationFrame(update);
             }
-            element.textContent = Math.floor(current) + suffix;
-        }, 16);
+        }
+        
+        requestAnimationFrame(update);
     }
 
     const aboutSection = document.getElementById('about');
@@ -1532,12 +1415,29 @@
                 countersAnimated = true;
                 statNumbers.forEach((stat, index) => {
                     const target = parseInt(stat.dataset.target);
-                    setTimeout(() => animateCounter(stat, target), index * 200);
+                    setTimeout(() => animateCounter(stat, target), index * 300);
                 });
             }
         });
     }, { threshold: 0.3 });
     if (aboutSection) counterObserver.observe(aboutSection);
+
+    // ============ MAGNETIC BUTTON EFFECT ============
+    document.querySelectorAll('.btn').forEach(btn => {
+        btn.addEventListener('mousemove', (e) => {
+            const rect = btn.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            
+            btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px) scale(1.02)`;
+            btn.style.transition = 'transform 0.1s ease';
+        });
+        
+        btn.addEventListener('mouseleave', () => {
+            btn.style.transform = 'translate(0, 0) scale(1)';
+            btn.style.transition = 'transform 0.3s ease';
+        });
+    });
 </script>
 
 </body>
